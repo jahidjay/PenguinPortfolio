@@ -7,7 +7,7 @@
 
 :root {
     --color-primary: #191d2b;
-    --color-secondary: #27AE60;
+    --color-secondary: #f3cf00;
     --color-white: #FFFFFF;
     --color-black: #000;
     --color-grey0: #f8f8f8;
@@ -23,7 +23,7 @@
 
 .light-mode {
     --color-primary: #FFFFFF;
-    --color-secondary: hsla(120, 100%, 27%, 0.843);
+    --color-secondary: #f3cf00(120, 100%, 27%, 0.843);
     --color-white: #454e56;
     --color-black: #000;
     --color-grey0: #f8f8f8;
@@ -191,7 +191,7 @@ section {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-right: 18rem;
+        padding-right: 12rem;
         .name {
             font-size: 3rem;
             span { color: var(--color-secondary); }
@@ -302,15 +302,15 @@ section {
                         transition: all .4s ease-in-out;
                         width: 60%;
                     }
-                    .html { width: 100%; }
-                    .css { width: 95%; }
+                    .html { width: 80%; }
+                    .css { width: 55%; }
                     .js { width: 10%; }
                     .react{ width: 60%; }
                     .node{ width: 87%; }
                     .python{ width: 70%; }
                     .unrealenginebp{ width: 95%; }
-                    .cpp{ width: 30%;}
-                    .github{ width: 75% }
+                    .cpp{ width: 45%;}
+                    .github{ width: 90% }
                     .ctd{ width: 90%;}
                     .vcs{ width: 80%;}
                     
