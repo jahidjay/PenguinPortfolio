@@ -1,39 +1,33 @@
-(function () {
-    [...document.querySelectorAll(".control")].forEach(button => {
-        button.addEventListener("click", function() {
-            document.querySelector(".active-btn").classList.remove("active-btn");
-            this.classList.add("active-btn");
-            document.querySelector(".active").classList.remove("active");
-            document.getElementById(button.dataset.id).classList.add("active");
-        })
-    });
-    document.querySelector(".theme-btn").addEventListener("click", () => {
-        document.body.classList.toggle("light-mode");
-    });
+// Dark/Light Theme Toggle
+const themeBtn = document.querySelector('.theme-btn');
+const root = document.documentElement;
+const themeIcon = themeBtn.querySelector('i');
 
-// Email sending code
-document.getElementById('email').addEventListener('click', function (event) {
-    event.preventDefault();
+// Load saved theme from localStorage or default to 'dark'
+const savedTheme = localStorage.getItem('theme') || 'dark';
+root.setAttribute('data-theme', savedTheme);
+themeIcon.className = savedTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
 
-    // Initialize Email.js with your user ID
-    emailjs.init("u9PRtVIA2Imd8wK_Y");
+// Toggle theme when the button is clicked
+themeBtn.addEventListener('click', () => {
+  const currentTheme = root.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  root.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
 
-    // Replace "YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", and "YOUR_USER_ID" with your actual values from Email.js dashboard
-    const emailData = {
-        from_name: document.querySelector('input[placeholder="YOUR NAME"]').value,
-        from_email: document.querySelector('input[placeholder="YOUR EMAIL"]').value,
-        subject: document.querySelector('input[placeholder="ENTER SUBJECT"]').value,
-        message: document.querySelector('textarea[placeholder="Message Here..."]').value,
-    };
+  // Animate icon change
+  themeIcon.classList.add('fade-out');
+  setTimeout(() => {
+    themeIcon.className = newTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+    themeIcon.classList.remove('fade-out');
+  }, 200);
+});
 
-    emailjs.send("service_ag9qyso", "template_lyz7f6p", emailData)
-        .then(function (response) {
-            console.log('Email sent successfully!', response);
-            // Show a success message to the user or perform any other actions.
-        }, function (error) {
-            console.log('Error sending email:', error);
-            // Show an error message to the user or handle the error as needed.
-        });
-    });
-
-})();
+// EmailJS Contact Form functionality (optional if you have this)
+document.getElementById('contact-form')?.addEventListener('submit', function(event) {
+  event.preventDefault();
+  this.contact_number.value = (Math.random() * 100000) | 0;
+  emailjs.sendForm('contact_service', 'contact-form', this)
+    .then(() => alert('Message sent successfully!'), 
+          (error) => console.log('FAILED...', error));
+});
