@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
-  basePath: "/PenguinPortfolio",
+  basePath: process.env.GITHUB_ACTIONS ? "/PenguinPortfolio" : "",
   typescript: {
     ignoreBuildErrors: true,
   },
