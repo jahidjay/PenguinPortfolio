@@ -56,8 +56,8 @@ jobs:
       - name: Install pnpm
         if: ${{ steps.detect-package-manager.outputs.manager == 'pnpm' }}
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
+        # Version comes from the "packageManager" field in package.json so this
+        # matches the pnpm that Vercel uses.
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
@@ -65,12 +65,9 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          # Automatically inject basePath in your Next.js configuration file and disable
-          # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
-          #
-          # You may remove this line if you want to manage the configuration yourself.
-          static_site_generator: next
+        # static_site_generator is deliberately omitted: next.config.mjs already sets
+        # basePath/assetPrefix/output when GITHUB_PAGES=true, and letting the action
+        # inject its own would conflict.
       - name: Restore cache
         uses: actions/cache@v4
         with:
@@ -85,8 +82,10 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        env:
+          GITHUB_PAGES: "true"
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./out
 
